@@ -64,17 +64,11 @@ game: {
 
         handle_game_logic()
 
-        // TODO: delete me
-        // inc byte_score_1
-        // lda #0
-        // cmp byte_score_1
-        // bne !skip+
-        //     inc byte_score_2
-        // !skip:
-        // TODO: delete me
-
+        set_foreground(GREEN)
         wait_for_vblank()
+        set_foreground(RED)
         update_screen()
+        set_foreground(YELLOW)
         inc_and_wrap_frame_counter()
 
         jmp !loop-
@@ -167,9 +161,6 @@ try_selection_change:
 
 
 .macro handle_game_logic() {
-    // check for game over
-    
-
     // joystick: left or right pressed?
     lda joy_2_state
     and #JOY_LEFT
@@ -177,7 +168,6 @@ try_selection_change:
         lda #-1
         sta byte_selected_dir
         jsr try_selection_change
-        //dec byte_selected_col
     !skip:
 
     lda joy_2_state
@@ -186,13 +176,14 @@ try_selection_change:
         lda #1
         sta byte_selected_dir
         jsr try_selection_change
-        //inc byte_selected_col
     !skip:
 
+    // TODO: Delete, just for debugging
     lda byte_selected_col
     sta byte_score_1
     lda byte_selected_cell
     sta byte_score_2
+    // TODO: Delete, just for debugging
 
     // joystick: fire button pressed?
     lda joy_2_state
